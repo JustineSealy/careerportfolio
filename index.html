@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Justine Sealy · HR Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --terra:#C4622D;--terra-light:#E8A87C;--terra-pale:#F5E6D8;
+    --gold:#B8860B;--gold-light:#D4A843;--gold-pale:#FDF4DC;
+    --cream:#FAF6F0;--warm-dark:#2C1810;--warm-mid:#6B4226;
+    --warm-muted:#9A7B6B;--warm-border:rgba(196,98,45,0.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:#F2EDE6;color:var(--warm-dark);min-height:100vh;padding:2rem 1rem;}
+  .portfolio-root{max-width:720px;margin:0 auto;background:white;border-radius:16px;padding:1.5rem;box-shadow:0 4px 40px rgba(44,24,16,0.08);}
+
+  .nav{display:flex;gap:6px;flex-wrap:wrap;padding:0 0 1rem;border-bottom:1px solid var(--warm-border);margin-bottom:0;}
+  .nav button{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--warm-border);border-radius:20px;background:transparent;color:var(--warm-muted);cursor:pointer;transition:all 0.2s;}
+  .nav button.active,.nav button:hover{background:var(--terra);color:white;border-color:var(--terra);}
+  .slide{display:none;animation:fadeIn 0.35s ease;}
+  .slide.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .hero{background:var(--cream);border:1px solid var(--warm-border);border-radius:12px;padding:2.5rem 2rem;margin:1rem 0;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle at top right,var(--terra-pale),transparent 70%);pointer-events:none;}
+  .hero-tag{display:inline-block;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--terra);font-weight:500;margin-bottom:0.75rem;}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:500;line-height:1.1;color:var(--warm-dark);margin-bottom:0.5rem;}
+  .hero h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;font-style:italic;color:var(--warm-mid);margin-bottom:1.25rem;}
+  .hero p{font-size:15px;font-weight:300;line-height:1.7;color:var(--warm-mid);max-width:540px;margin-bottom:1.5rem;}
+  .hero-stats{display:flex;gap:2rem;flex-wrap:wrap;}
+  .stat-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--terra);line-height:1;}
+  .stat-label{font-size:11px;color:var(--warm-muted);letter-spacing:0.06em;text-transform:uppercase;margin-top:2px;}
+  .contact-bar{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--warm-border);}
+  .contact-item{font-size:13px;color:var(--warm-muted);}
+  .dot-sep{width:4px;height:4px;border-radius:50%;background:var(--terra-light);display:inline-block;}
+  .geo-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem;}
+  .geo-tag{font-size:12px;padding:4px 12px;border-radius:20px;background:white;border:1px solid var(--warm-border);color:var(--warm-mid);}
+
+  .section-label{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--terra);font-weight:500;margin:1.5rem 0 1rem;display:flex;align-items:center;gap:8px;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--warm-border);}
+
+  .principle-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;}
+  .principle-card{background:var(--cream);border:1px solid var(--warm-border);border-radius:10px;padding:1rem 1.1rem;}
+  .principle-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--terra-light);line-height:1;margin-bottom:4px;}
+  .principle-title{font-size:13px;font-weight:500;color:var(--warm-dark);margin-bottom:5px;}
+  .principle-body{font-size:12px;font-weight:300;color:var(--warm-muted);line-height:1.55;}
+
+  .video-placeholder{background:var(--cream);border:2px dashed rgba(196,98,45,0.3);border-radius:12px;padding:2rem;text-align:center;margin-bottom:1rem;}
+  .video-icon{width:52px;height:52px;border-radius:50%;background:var(--terra-pale);border:1px solid rgba(196,98,45,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;font-size:20px;}
+  .video-placeholder p{font-size:13px;color:var(--warm-muted);font-weight:300;line-height:1.6;}
+
+  .case-card{background:var(--cream);border:1px solid var(--warm-border);border-radius:10px;padding:1.25rem 1.4rem;margin-bottom:10px;}
+  .case-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.6rem;}
+  .case-org{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--terra);font-weight:500;}
+  .case-badge{font-size:10px;padding:3px 10px;border-radius:20px;background:var(--terra-pale);color:var(--terra);border:1px solid rgba(196,98,45,0.22);font-weight:500;}
+  .case-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--warm-dark);margin-bottom:0.5rem;line-height:1.25;}
+  .case-body{font-size:13px;font-weight:300;color:var(--warm-muted);line-height:1.6;margin-bottom:0.85rem;}
+  .case-results{display:flex;gap:8px;flex-wrap:wrap;}
+  .result-pill{font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px;background:var(--gold-pale);color:var(--gold);border:1px solid rgba(184,134,11,0.2);}
+
+  /* HOW I WORK */
+  .story-card{background:var(--cream);border:1px solid var(--warm-border);border-radius:12px;padding:1.5rem 1.6rem;margin-bottom:14px;}
+  .story-tag{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:var(--terra);margin-bottom:0.5rem;}
+  .story-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--warm-dark);line-height:1.3;margin-bottom:0.85rem;}
+  .story-body{font-size:13px;font-weight:300;color:var(--warm-mid);line-height:1.75;}
+  .story-body em{font-style:italic;color:var(--warm-dark);font-weight:400;}
+  .story-takeaway{margin-top:1.1rem;padding:0.75rem 1rem;background:var(--terra-pale);border-radius:8px;font-size:12px;color:var(--terra);font-weight:400;line-height:1.55;}
+  .story-takeaway strong{font-weight:500;}
+  .story-placeholder{border-style:dashed;border-color:rgba(196,98,45,0.25);opacity:0.75;}
+
+  /* WORKING WITH ME */
+  .working-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem;}
+  .working-card{background:var(--cream);border:1px solid var(--warm-border);border-radius:10px;padding:1rem 1.1rem;}
+  .working-icon{font-size:18px;margin-bottom:6px;}
+  .working-title{font-size:13px;font-weight:500;color:var(--warm-dark);margin-bottom:4px;}
+  .working-body{font-size:12px;font-weight:300;color:var(--warm-muted);line-height:1.55;}
+  .quote-card{background:var(--gold-pale);border:1px solid rgba(184,134,11,0.2);border-left:3px solid var(--gold-light);border-radius:0 10px 10px 0;padding:1.1rem 1.4rem;margin-bottom:10px;}
+  .quote-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--warm-mid);line-height:1.6;margin-bottom:0.5rem;}
+  .quote-attr{font-size:11px;color:var(--warm-muted);font-weight:400;letter-spacing:0.04em;}
+  .not-fit-title{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--warm-muted);font-weight:500;margin-bottom:0.6rem;}
+  .not-fit-list{display:flex;flex-direction:column;gap:6px;}
+  .not-fit-item{font-size:12px;font-weight:300;color:var(--warm-muted);padding:8px 14px;border:1px solid var(--warm-border);border-radius:8px;line-height:1.45;}
+
+  /* EXPERTISE */
+  .skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .skill-item{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:400;color:var(--warm-mid);padding:8px 12px;background:var(--cream);border:1px solid var(--warm-border);border-radius:8px;}
+  .skill-dot{width:6px;height:6px;border-radius:50%;background:var(--terra);flex-shrink:0;}
+  .edu-item{display:flex;justify-content:space-between;align-items:flex-start;padding:0.85rem 1rem;background:var(--cream);border:1px solid var(--warm-border);border-radius:8px;margin-bottom:8px;}
+  .edu-qual{font-size:13px;font-weight:500;color:var(--warm-dark);margin-bottom:2px;}
+  .edu-inst{font-size:12px;font-weight:300;color:var(--warm-muted);}
+  .edu-year{font-size:11px;color:var(--terra);font-weight:500;white-space:nowrap;}
+  .cert-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:0.5rem;}
+  .cert-tag{font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--warm-border);color:var(--warm-muted);}
+
+  /* JOURNEY */
+  .timeline-item{display:flex;gap:1rem;margin-bottom:1rem;}
+  .timeline-line{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+  .timeline-dot{width:10px;height:10px;border-radius:50%;background:var(--terra);margin-top:4px;flex-shrink:0;}
+  .timeline-track{width:1px;flex:1;background:var(--warm-border);margin-top:4px;}
+  .timeline-content{flex:1;padding-bottom:0.5rem;}
+  .timeline-date{font-size:11px;color:var(--terra);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:2px;}
+  .timeline-role{font-size:14px;font-weight:500;color:var(--warm-dark);}
+  .timeline-org{font-size:13px;font-weight:300;color:var(--warm-muted);margin-bottom:5px;}
+  .timeline-desc{font-size:12px;font-weight:300;color:var(--warm-muted);line-height:1.55;}
+
+  /* WHAT I SEEK */
+  .looking-for{background:var(--terra-pale);border:1px solid rgba(196,98,45,0.22);border-radius:12px;padding:1.5rem;margin-bottom:1rem;}
+  .looking-for p{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--warm-mid);line-height:1.6;}
+  .looking-for strong{color:var(--terra);font-style:normal;font-weight:600;}
+  .culture-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .culture-tag{font-size:12px;padding:5px 14px;border-radius:20px;background:white;border:1px solid var(--warm-border);color:var(--warm-mid);}
+
+  /* CONNECT */
+  .connect-card{background:var(--cream);border:1px solid var(--warm-border);border-radius:12px;padding:2rem;text-align:center;margin-bottom:10px;}
+  .connect-card h3{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:500;color:var(--warm-dark);margin-bottom:0.4rem;}
+  .connect-card p{font-size:14px;font-weight:300;color:var(--warm-muted);margin-bottom:1.5rem;}
+  .connect-links{display:flex;flex-direction:column;gap:8px;max-width:360px;margin:0 auto;}
+  .connect-link{display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:8px;background:white;border:1px solid var(--warm-border);text-decoration:none;font-size:13px;color:var(--warm-mid);font-weight:400;transition:border-color 0.2s;}
+  .connect-link:hover{border-color:var(--terra);}
+  .connect-icon{width:30px;height:30px;border-radius:6px;background:var(--terra-pale);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  .loom-hint{background:var(--gold-pale);border:1px solid rgba(184,134,11,0.2);border-radius:8px;padding:0.85rem 1rem;font-size:12px;color:var(--gold);display:flex;align-items:center;gap:8px;margin-top:1rem;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="portfolio-root">
+  <nav class="nav" id="mainNav">
+    <button data-slide="hero" class="active">Overview</button>
+    <button data-slide="approach">My Approach</button>
+    <button data-slide="impact">Impact</button>
+    <button data-slide="howIwork">How I Work</button>
+    <button data-slide="workingwithme">Working With Me</button>
+    <button data-slide="expertise">Expertise</button>
+    <button data-slide="journey">Journey</button>
+    <button data-slide="seeking">Future Opportunities</button>
+    <button data-slide="connect">Connect</button>
+  </nav>
+
+  <!-- OVERVIEW -->
+  <div id="slide-hero" class="slide active">
+    <div class="hero">
+      <span class="hero-tag">Senior HR Leader · London</span>
+      <h1>Justine Sealy</h1>
+      <h2>Strategic Head of HR · Global People Operations</h2>
+      <p>10+ years partnering with C-suite and senior leaders to build HR from the ground up — across hospitality, travel, and beyond. I bring pragmatic people strategy to businesses navigating growth, change, and complexity across borders.</p>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Years in HR</div></div>
+        <div class="stat"><div class="stat-num">2</div><div class="stat-label">Continents</div></div>
+        <div class="stat"><div class="stat-num">93%</div><div class="stat-label">Performance completion</div></div>
+        <div class="stat"><div class="stat-num">700+</div><div class="stat-label">Employees impacted</div></div>
+      </div>
+      <div class="contact-bar">
+        <span class="contact-item">📍 London, UK</span>
+        <span class="dot-sep"></span>
+        <span class="contact-item">justinemsealy@gmail.com</span>
+        <span class="dot-sep"></span>
+        <span class="contact-item">in/justinesealy</span>
+      </div>
+    </div>
+    <div class="geo-tags">
+      <span class="geo-tag">UK · Belgium · Netherlands · Sweden · USA</span>
+      <span class="geo-tag">CIPD Level 7</span>
+      <span class="geo-tag">SHRM-CP</span>
+      <span class="geo-tag">Rippling · ADP · Fourth</span>
+    </div>
+  </div>
+
+  <!-- MY APPROACH -->
+  <div id="slide-approach" class="slide">
+    <div class="section-label">My approach to people</div>
+    <div class="principle-grid">
+      <div class="principle-card">
+        <div class="principle-num">01</div>
+        <div class="principle-title">People strategy is business strategy</div>
+        <div class="principle-body">I build HR that connects directly to commercial outcomes, not just programmes for programmes' sake. Every initiative earns its place.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">02</div>
+        <div class="principle-title">Coaching, not just advising</div>
+        <div class="principle-body">I help leaders develop their own decision-making capability, not just hand them answers. Stronger leaders make stronger organisations.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">03</div>
+        <div class="principle-title">Fair, consistent, legally sound</div>
+        <div class="principle-body">Especially in complex ER matters, I pursue outcomes that protect people and the business — with rigorous documentation and pragmatic risk judgement.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">04</div>
+        <div class="principle-title">Build to scale, not to survive</div>
+        <div class="principle-body">Whether it's HRIS implementation or a new performance framework, I design systems that last beyond my tenure and grow with the business.</div>
+      </div>
+    </div>
+    
+
+  <!-- IMPACT -->
+  <div id="slide-impact" class="slide">
+    <div class="section-label">Selected impact stories</div>
+    <div class="case-card">
+      <div class="case-header"><span class="case-org">Interhome · 2023–Present</span><span class="case-badge">Performance</span></div>
+      <div class="case-title">Redesigning performance review across 700 employees</div>
+      <div class="case-body">Co-led a complete overhaul of the company-wide performance review process with the Director of People. Built for clarity, consistency and manager confidence — rolled out across four European countries with full leadership alignment.</div>
+      <div class="case-results"><span class="result-pill">93% completion rate</span><span class="result-pill">700 employees</span><span class="result-pill">European rollout</span></div>
+    </div>
+    <div class="case-card">
+      <div class="case-header"><span class="case-org">Interhome · 2024</span><span class="case-badge">HRIS & Ops</span></div>
+      <div class="case-title">HRIS implementation: Rippling across Northern Europe</div>
+      <div class="case-body">Led end-to-end implementation of Rippling HRIS including UK payroll integration. Significantly reduced manual HR administration, improved workforce data accuracy, and established a reliable platform for multi-country people operations.</div>
+      <div class="case-results"><span class="result-pill">UK payroll integrated</span><span class="result-pill">Multi-country data governance</span><span class="result-pill">Admin reduction</span></div>
+    </div>
+    <div class="case-card">
+      <div class="case-header"><span class="case-org">The Ned · 2022–2023</span><span class="case-badge">Employee Relations</span></div>
+      <div class="case-title">Complex ER case management at scale</div>
+      <div class="case-body">Managed complex employee relations across an ~800-person hotel, including disciplinary, capability, and restructure matters — ensuring legally sound, consistent outcomes that protected both employees and the business.</div>
+      <div class="case-results"><span class="result-pill">800-employee operation</span><span class="result-pill">ER risk mitigation</span><span class="result-pill">Leadership coaching</span></div>
+    </div>
+    <div class="case-card">
+      <div class="case-header"><span class="case-org">Rosewood · 2018–2020</span><span class="case-badge">Talent Acquisition</span></div>
+      <div class="case-title">Building a talent pipeline across North America</div>
+      <div class="case-body">Partnered with the Corporate Director of Talent & Culture to grow university recruitment partnerships from 3 to 10 schools, significantly expanding brand awareness across North America. Placed management trainees across all northern American hotels that year, and led a 300-person induction for a new hotel opening.</div>
+      <div class="case-results"><span class="result-pill">3 to 10 university partners</span><span class="result-pill">300-employee induction</span><span class="result-pill">North America-wide placement</span></div>
+    </div>
+  </div>
+
+  <!-- HOW I WORK -->
+  <div id="slide-howIwork" class="slide">
+    <div class="section-label">How I actually think and work</div>
+
+    <div class="story-card">
+      <div class="story-tag">Influencing · Process-building · Fairness</div>
+      <div class="story-title">"If it's still the same person at the end, great — but let's do this properly."</div>
+      <div class="story-body">
+        A manager came to me wanting to promote someone immediately — no process, no internal advertisement. The business had no formal promotion procedure at all. Rather than simply blocking him, I reframed the conversation: <em>if we open this up, run a fair process, and the same person wins — you get exactly what you wanted, and you've also set a precedent that protects you next time.</em>
+        <br><br>
+        We built a simple internal process from scratch, opened the role to the team, and ran interviews. The manager's preferred candidate was appointed. But the team felt heard, a second employee who'd been covering the role informally wasn't left feeling overlooked, and the business had its first proper promotion framework in place.
+      </div>
+      <div class="story-takeaway"><strong>What this shows:</strong> I don't just say no to leaders — I find the path that gets them what they need while building something that lasts. And I think about the ripple effects on the wider team, not just the immediate decision.</div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-tag">Curiosity · ER judgement · Manager development</div>
+      <div class="story-title">"Before we put anyone on a PIP, help me understand what's actually going on."</div>
+      <div class="story-body">
+        A manager in the Netherlands came to me wanting to put an employee on a performance improvement plan — with a view to exit. In the Netherlands, the legal bar for this is high, so before going anywhere near a PIP, I asked him to walk me through everything: what had changed, what he'd observed, what conversations had taken place.
+        <br><br>
+        As I asked questions, a different picture emerged. The employee wasn't underperforming — they were <em>disengaged</em>. And when I dug further, it became clear the manager hadn't been providing recognition, feedback, or any meaningful support. The issue wasn't capability. It was management.
+        <br><br>
+        I redirected the conversation. We talked about what the manager could do differently: regular check-ins, acknowledgment of contributions, clearer expectations. The performance concern resolved without a PIP ever being raised — and the manager came away with a better understanding of their own role in the situation.
+      </div>
+      <div class="story-takeaway"><strong>What this shows:</strong> I don't accept the initial framing of a problem. I ask questions until I understand the real situation — and I'm willing to tell a manager, respectfully, when the issue sits with them. That protects the business legally and builds better managers over time.</div>
+    </div>
+
+    <div class="story-card">
+      <div class="story-theme"><span class="story-theme-dot"></span>Cultural agility · In-the-moment adaptation</div>
+      <div class="story-title">"Knowing the rule matters less than knowing when to adapt gracefully."</div>
+      <div class="story-body">
+        When hiring in Sweden, we followed our standard process and selected a candidate. What we hadn't anticipated was a strong cultural expectation: in Sweden, it's common for the wider team to be involved in the hiring decision, not just the manager.
+        <br><br>
+        Rather than dismiss it or restart from scratch, I proposed a compromise: a relaxed coffee chat between the candidate and the team. Informal enough to respect the Swedish collaborative culture, structured enough that it didn't derail our timeline or reopen the decision. It worked. The team felt heard. The hire went ahead. And we updated our process for future Swedish recruitment.
+      </div>
+      <div class="story-takeaway"><strong>What this shows:</strong> Adapting to cultural norms isn't just about knowing them in advance. It's about responding well when you encounter them, finding solutions that respect both the culture and the business need.</div>
+    </div>
+
+  <!-- WORKING WITH ME -->
+  <div id="slide-workingwithme" class="slide">
+    <div class="section-label">What it's like to work with me</div>
+    <div class="working-grid">
+      <div class="working-card">
+        <div class="working-icon">🔍</div>
+        <div class="working-title">I ask before I act</div>
+        <div class="working-body">When a leader brings me a problem, my first instinct is curiosity, not a solution. I ask questions until I'm confident I understand the real situation — not just the presenting one.</div>
+      </div>
+      <div class="working-card">
+        <div class="working-icon">⚖️</div>
+        <div class="working-title">I hold the line — with warmth</div>
+        <div class="working-body">I'll push back on a leader when I need to, including when the issue is their own behaviour. But I do it in a way that keeps the relationship intact and gives them a path forward.</div>
+      </div>
+      <div class="working-card">
+        <div class="working-icon">🌍</div>
+        <div class="working-title">I adapt across cultures</div>
+        <div class="working-body">Having worked across the UK, Netherlands, Belgium, Sweden, and the US, I understand that the same issue lands differently depending on context — legally, culturally, and interpersonally.</div>
+      </div>
+      <div class="working-card">
+        <div class="working-icon">🏗️</div>
+        <div class="working-title">I build things that outlast me</div>
+        <div class="working-body">I'm not interested in quick fixes. Whether it's a promotion framework or a payroll process, I want to leave something behind that works without me.</div>
+      </div>
+      <div class="working-card">
+        <div class="working-icon">📊</div>
+        <div class="working-title">I think in risk and evidence</div>
+        <div class="working-body">My recommendations are grounded in what the evidence actually shows — not what someone wants to hear. I consider legal, reputational, and cultural risk as a matter of course.</div>
+      </div>
+      <div class="working-card">
+        <div class="working-icon">🤝</div>
+        <div class="working-title">I work best as a true partner</div>
+        <div class="working-body">I'm at my most effective when I have a real seat at the leadership table — not when HR is consulted at the end. I'll earn that trust, but I'll also advocate for it.</div>
+      </div>
+    </div>
+
+    
+
+    <div class="section-label" style="margin-top:1.5rem;">I'm probably not the right fit if...</div>
+    <div class="not-fit-list">
+      <div class="not-fit-item">You need HR to stay in its lane and not challenge leadership decisions</div>
+      <div class="not-fit-item">The role is primarily transactional — everything is already built and you just need someone to maintain it</div>
+      <div class="not-fit-item">You want fast answers without someone asking questions first</div>
+    </div>
+  </div>
+
+  <!-- EXPERTISE -->
+  <div id="slide-expertise" class="slide">
+    <div class="section-label">Core expertise</div>
+    <div class="skills-grid">
+      <div class="skill-item"><span class="skill-dot"></span>Strategic HR Business Partnering</div>
+      <div class="skill-item"><span class="skill-dot"></span>Employee Relations & Risk Management</div>
+      <div class="skill-item"><span class="skill-dot"></span>HRIS Implementation (Rippling, ADP, Fourth)</div>
+      <div class="skill-item"><span class="skill-dot"></span>Multi-country People Operations</div>
+      <div class="skill-item"><span class="skill-dot"></span>Performance Management Design</div>
+      <div class="skill-item"><span class="skill-dot"></span>Coaching Senior Leadership</div>
+      <div class="skill-item"><span class="skill-dot"></span>Learning & Development, Succession</div>
+      <div class="skill-item"><span class="skill-dot"></span>Compensation, Benefits & Payroll</div>
+      <div class="skill-item"><span class="skill-dot"></span>HR Analytics & Data-Led Decisions</div>
+      <div class="skill-item"><span class="skill-dot"></span>Inclusive & Fair People Practices</div>
+      <div class="skill-item"><span class="skill-dot"></span>Workforce Planning</div>
+      <div class="skill-item"><span class="skill-dot"></span>Change Management</div>
+    </div>
+    <div class="section-label" style="margin-top:1.5rem;">Education & credentials</div>
+    <div class="edu-item">
+      <div><div class="edu-qual">MSc Human Resources Management</div><div class="edu-inst">Kingston University, London</div></div>
+      <div class="edu-year">2020–2022</div>
+    </div>
+    <div class="edu-item">
+      <div><div class="edu-qual">BA Public Relations</div><div class="edu-inst">Southern New Hampshire University</div></div>
+      <div class="edu-year">2013–2015</div>
+    </div>
+    <div class="cert-tags">
+      <span class="cert-tag">CIPD Level 7</span>
+      <span class="cert-tag">SHRM-CP</span>
+      <span class="cert-tag">Mental Health First Aid</span>
+    </div>
+  </div>
+
+  <!-- JOURNEY -->
+  <div id="slide-journey" class="slide">
+    <div class="section-label">Career journey</div>
+    <div class="timeline-item">
+      <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-track"></div></div>
+      <div class="timeline-content">
+        <div class="timeline-date">Jan 2025 – Present</div>
+        <div class="timeline-role">Head of People, Northern Europe</div>
+        <div class="timeline-org">Interhome, London</div>
+        <div class="timeline-desc">Standalone strategic HR lead across UK, Belgium, Netherlands & Sweden (~40 employees). Full HR infrastructure build — frameworks, HRIS, payroll, L&D, ER.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-track"></div></div>
+      <div class="timeline-content">
+        <div class="timeline-date">Jun 2023 – Jan 2025</div>
+        <div class="timeline-role">Human Resources Manager, Northern Europe</div>
+        <div class="timeline-org">Interhome, London</div>
+        <div class="timeline-desc">Multi-country HR operations, senior leader advisory, performance redesign, and multi-country payroll governance.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-track"></div></div>
+      <div class="timeline-content">
+        <div class="timeline-date">Mar 2022 – Jun 2023</div>
+        <div class="timeline-role">People & Development Manager</div>
+        <div class="timeline-org">The Ned, London</div>
+        <div class="timeline-desc">Complex ER, recruitment strategy, L&D, and manager coaching across an 800-person luxury hospitality operation.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-track"></div></div>
+      <div class="timeline-content">
+        <div class="timeline-date">Sep 2021 – Mar 2022</div>
+        <div class="timeline-role">HR Manager (Maternity Cover)</div>
+        <div class="timeline-org">Arts Students' Union, London</div>
+        <div class="timeline-desc">End-to-end HR operations, payroll, onboarding redesign and manager advisory for ~40 employees.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-track"></div></div>
+      <div class="timeline-content">
+        <div class="timeline-date">Jun 2018 – Nov 2020</div>
+        <div class="timeline-role">Corporate Talent & Culture Manager</div>
+        <div class="timeline-org">Rosewood Hotel Group, Los Angeles</div>
+        <div class="timeline-desc">Corporate TA strategy for new hotel openings across the Americas. Pre-opening inductions, university partnerships, management trainee programme.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-line"><div class="timeline-dot"></div></div>
+      <div class="timeline-content">
+        <div class="timeline-date">Sep 2015 – Jun 2018</div>
+        <div class="timeline-role">HR Administrative Assistant → HR Manager</div>
+        <div class="timeline-org">The Carlyle, A Rosewood Hotel, New York</div>
+        <div class="timeline-desc">Progressed from admin to managerial level. Designed L&D programmes, improved LQA audit scores by 2%, ran engagement initiatives across NYC and DC properties.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT I SEEK -->
+  <div id="slide-seeking" class="slide">
+    <div class="section-label">What I'm looking for</div>
+    <div class="looking-for">
+      <p>I'm seeking a <strong>senior HR leadership role</strong>, ideally Senior HRBP or Head of People, within a business that operates across <strong>multiple countries or cultures</strong>, values <strong>commercially-minded HR</strong>, and wants a genuine strategic partner at the leadership table, not just a policy enforcer.</p>
+    </div>
+    <div class="section-label">Environments where I thrive</div>
+    <div class="culture-tags">
+      <span class="culture-tag">Scale-ups and mid-sized organisations</span>
+      <span class="culture-tag">Multi-site or international scope</span>
+      <span class="culture-tag">Standalone or small HR team</span>
+      <span class="culture-tag">People-first culture</span>
+      <span class="culture-tag">High-growth or transformation phase</span>
+      <span class="culture-tag">C-suite collaboration</span>
+    </div>
+    <div class="section-label" style="margin-top:1.5rem;">Not the right fit if...</div>
+    <div class="culture-tags">
+      <span class="culture-tag" style="border-color:rgba(196,98,45,0.3);color:var(--warm-muted);">HR is purely operational/administrative</span>
+      <span class="culture-tag" style="border-color:rgba(196,98,45,0.3);color:var(--warm-muted);">No appetite for evidence-based decisions</span>
+      <span class="culture-tag" style="border-color:rgba(196,98,45,0.3);color:var(--warm-muted);">Highly siloed, bureaucratic structures</span>
+    </div>
+  </div>
+
+  <!-- CONNECT -->
+  <div id="slide-connect" class="slide">
+    <div class="connect-card">
+      <h3>Let's talk</h3>
+      <p>Open to senior HR opportunities in London and internationally.<br>Happy to connect directly or via LinkedIn.</p>
+      <div class="connect-links">
+        <a class="connect-link" href="mailto:justinemsealy@gmail.com"><div class="connect-icon">✉</div>justinemsealy@gmail.com</a>
+        <a class="connect-link" href="https://linkedin.com/in/justinesealy"><div class="connect-icon">in</div>linkedin.com/in/justinesealy</a>
+        <a class="connect-link" href="tel:07375521270"><div class="connect-icon">☎</div>07375 521 270</a>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var buttons = document.querySelectorAll('#mainNav button');
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var slideId = this.getAttribute('data-slide');
+      document.querySelectorAll('.slide').forEach(function(s) {
+        s.classList.remove('active');
+      });
+      document.querySelectorAll('#mainNav button').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      document.getElementById('slide-' + slideId).classList.add('active');
+      this.classList.add('active');
+    });
+  });
+});
+</script>
+</body>
+</html>
